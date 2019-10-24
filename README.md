@@ -14,7 +14,7 @@ Generated documentation can be found [here][docs].
 
 ## Getting started
 1. Install with your prefered packet manager (we're using `npm` here):
-`npm install --save @ngx-material-keyboard/core`
+`npm install --save butleric-vitual-keyboard`
 > Be sure to fulfill the peer dependencies of this module, in particular [Angular] and [Angular Material].
 
 2. Add the module to your project, e.g. `app.module.ts`:
@@ -25,7 +25,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 ...
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { MatKeyboardModule } from 'butleric-vitual-keyboard';
 
 @NgModule({
   imports: [
@@ -61,7 +61,7 @@ All layouts are based on (or directly inherited from) the [angular-virtual-keybo
 
 But basicly you just provide the configuration of your new layout in your `AppModule`:
 ```:typescript
-import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from 'butleric-vitual-keyboard';
 
 const customLayouts: IKeyboardLayouts = {
   ...keyboardLayouts,
@@ -110,4 +110,3 @@ The application uses [semver][SemVer] and is developed with the [git flow branch
 [InjectionToken]: https://angular.io/guide/dependency-injection-in-action#injectiontoken
 [VKI Readme]: https://goo.gl/fCDExr
 [VKI Credits]: https://goo.gl/NYqTwc
-

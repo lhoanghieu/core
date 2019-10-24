@@ -137,7 +137,11 @@ export class MatKeyboardKeyComponent implements OnInit {
     if (this.control) {
       this.control.setValue(inputValue);
     } else if (this.input && this.input.nativeElement) {
-      this.input.nativeElement.value = inputValue;
+      if (this.input.nativeElement.type === 'number') {
+        this.input.nativeElement.value = this._cleanText(inputValue);
+      } else {
+        this.input.nativeElement.value = inputValue;
+      }
     }
   }
 
@@ -162,7 +166,7 @@ export class MatKeyboardKeyComponent implements OnInit {
     this.genericClick.emit(event);
 
     // Manipulate the focused input / textarea value
-    const value = this.inputValue;
+    const value = this.inputValue == null ? '' : this.inputValue.toString();
     const caret = this.input ? this._getCursorPosition() : 0;
 
     let char: string;
@@ -223,7 +227,7 @@ export class MatKeyboardKeyComponent implements OnInit {
   }
 
   private deleteSelectedText(): void {
-    const value = this.inputValue;
+    const value = this.inputValue == null ? "" : this.inputValue.toString();
     let caret = this.input ? this._getCursorPosition() : 0;
     let selectionLength = this._getSelectionLength();
     if (selectionLength === 0) {
@@ -243,12 +247,11 @@ export class MatKeyboardKeyComponent implements OnInit {
   }
 
   private replaceSelectedText(char: string): void {
-    const value = this.inputValue;
+    const value = this.inputValue == null ? '' : this.inputValue.toString();
     const caret = this.input ? this._getCursorPosition() : 0;
     const selectionLength = this._getSelectionLength();
     const headPart = value.slice(0, caret);
     const endPart = value.slice(caret + selectionLength);
-
     this.inputValue = [headPart, char, endPart].join('');
   }
 
@@ -278,10 +281,20 @@ export class MatKeyboardKeyComponent implements OnInit {
     if (!this.input) {
       return;
     }
+    const _SELECTABLE_TYPES = /text|password|search|tel|url/;
 
     if ('selectionStart' in this.input.nativeElement) {
+      const validType = _SELECTABLE_TYPES.test(this.input.nativeElement.type);
+      if (validType) {
       // Standard-compliant browsers
       return this.input.nativeElement.selectionStart;
+    } else {
+      this.input.nativeElement.setAttribute('type', 'text');
+      const temp = this.input.nativeElement.value.length;
+      this.input.nativeElement.setAttribute('type', 'number');
+      // Standard-compliant browsers
+      return temp;
+      }
     } else if ('selection' in window.document) {
       // IE
       this.input.nativeElement.focus();
@@ -319,7 +332,7 @@ export class MatKeyboardKeyComponent implements OnInit {
       return;
     }
 
-    this.inputValue = this.control.value;
+    // this.inputValue = this.control.value;
     // ^ this is used to not only get "focus", but
     // to make sure we don't have it everything -selected-
     // (it causes an issue in chrome, and having it doesn't hurt any other browser)
@@ -348,4 +361,7 @@ export class MatKeyboardKeyComponent implements OnInit {
     return this.input && this.input.nativeElement && this.input.nativeElement.tagName === 'TEXTAREA';
   }
 
+  private _cleanText(str): number {
+      return str.replace(/[^0-9a-z-A-Z ]/g, '').replace(/ +/, ' ');
+  }
 }

@@ -18,12 +18,12 @@
       "dom"
     ],
     "paths": {
-      "@ngx-material-keyboard/core": [ "./src/core/src/public_api.ts" ]
+      "butleric-vitual-keyboard": [ "./src/core/src/public_api.ts" ]
     }
   },
   "angularCompilerOptions": {
     "paths": {
-      "@ngx-material-keyboard/core": [ "./src/core/src/public_api.ts" ]
+      "butleric-vitual-keyboard": [ "./src/core/src/public_api.ts" ]
     }
   },
   "exclude": [
