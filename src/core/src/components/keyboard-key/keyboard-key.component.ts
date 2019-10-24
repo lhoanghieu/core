@@ -252,7 +252,11 @@ export class MatKeyboardKeyComponent implements OnInit {
     const selectionLength = this._getSelectionLength();
     const headPart = value.slice(0, caret);
     const endPart = value.slice(caret + selectionLength);
-    this.inputValue = [headPart, char, endPart].join('');
+    let tempInputValue: any = [headPart, char, endPart].join('');
+    if (this.input.nativeElement.type === 'number') {
+      tempInputValue = this._cleanText(tempInputValue);
+    }
+    this.inputValue = tempInputValue;
   }
 
   private _triggerKeyEvent(): Event {
@@ -362,6 +366,6 @@ export class MatKeyboardKeyComponent implements OnInit {
   }
 
   private _cleanText(str): number {
-      return str.replace(/[^0-9a-z-A-Z ]/g, '').replace(/ +/, ' ');
+    return str.replace(/[\D]/g, '');
   }
 }
